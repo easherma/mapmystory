@@ -8,7 +8,7 @@ function API(username, table_name){
 
 
 API.prototype.post_data = function(user_id, point, order, data , callback){
-   var query = 'select null::GEOMETRY as the_geom,  UPDATE_'+self.table_name +' ( '+ user_id + '::text '+
+   var query = 'select null::GEOMETRY as the_geom,  UPDATE_'+this.table_name +' ( '+ user_id + '::text '+
   ', CDB_LATLNG(' + point.lat + ", "+point.lng+") "+
   ", "+order + "::Numeric "+
   ", '"+JSON.stringify(data)+ "'::json)"
