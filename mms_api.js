@@ -12,12 +12,12 @@ API.prototype.post_data = function(user_id, point, order, data , callback){
   ', CDB_LATLNG(' + point.lat + ", "+point.lng+") "+
   ", "+order + "::Numeric "+
   ", '"+JSON.stringify(data)+ "'::json)"
-  
+
   console.log('query ', query)
   this.sql.execute(query).done(function(data){
     console.log("updated data")
   }).error(function(error){
-    console.log("failed to update data")  
+    console.log("failed to update data")
   })
 };
 
@@ -28,7 +28,7 @@ API.prototype.get_data_for_user= function(user_id,callback){
             callback(data);
         }.bind(this)
     ).error(function(error){
-      console.log("error with getting user data", error)  
+      console.log("error with getting user data", error)
     });
 }
 

@@ -31,7 +31,7 @@
     var markers = userCoords.forEach(plotMarkers);
     return markers;
   }
-    var api = API('stuartlynn', 'mapmystory');
+
 
     var map = L.map('map').setView([37.804146, -122.275045], 16);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -49,7 +49,7 @@
 
 };
     sessionStorage.setItem("stories", "");
-    if (sessionStorage > 1) 
+    if (sessionStorage > 1)
     {var allGeo2 = JSON.parse(sessionStorage.stories)}
     var features = [];
     L.geoJson(features).addTo(map); //storypoints
