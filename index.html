@@ -15,14 +15,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="pelias-leaflet-geocoder.css">
 
-  <style>
-    #map {
-      height: 100%;
-      width: 100%;
-      position: absolute;
-    }
-    html,body{margin: 0; padding: 0}
-  </style>
+
 </head>
 <body>
   <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
@@ -51,7 +44,20 @@
       document.getElementsByClassName("modal-title").innerHTML = "Where do you live?";
 
       </script>
-
+      <script>
+        //var geoj = {{carto_geoj|tojson}};
+        var geoj = []
+      </script>
+      <script>
+        //var geoplaces = {{ carto_places|tojson }};
+        var geoplaces = []
+      </script>
+      <script>
+        //var prevRowId = {{ last_row_id }};
+        var prevRowId = []
+      </script>
+      <script src="notes.js"></script>
+      <script src="geopaths.js"></script>
   <!-- Header -->
   <header id="top" class="header">
   <div class="row">
@@ -59,7 +65,7 @@
       <div class="text-vertical-center col-md-3"><h2> SOTM Edition</h2></div>
       <div id="buttons" class="text-vertical-center col-md-6">
       <button onclick='all_layer_group.snakeIn()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
-      <a href ="#map"> <button onclick='map.removeLayer(all_layer_group); geocoder.expand();  ' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a>
+      <a href ="#map"> <button onclick='geocoder.expand();  ' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
       <a href="/" class="btn btn-dark btn-lg">See Another Story</a>
       <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a>
       </div>
@@ -226,7 +232,7 @@ function submitGeoj() {
 
               </div>
               <div class="col-lg-5 col-lg-offset-1 text-center">
-                          <iframe id='signup' src="https://docs.google.com/forms/d/1JYwnBkVeSqjPiL-HYAwGIjs1RL285Aiy5mJVAoQbllM/viewform?embedded=true" width="100%" height="465" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Loading...</iframe>
+                          <!--<iframe id='signup' src="https://docs.google.com/forms/d/1JYwnBkVeSqjPiL-HYAwGIjs1RL285Aiy5mJVAoQbllM/viewform?embedded=true" width="100%" height="465" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Loading...</iframe> -->
               </div>
           </div>
           <!-- /.row -->
