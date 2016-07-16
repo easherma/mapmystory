@@ -27,8 +27,13 @@ var create_database = function(db_name, schema){
     return sql.execute("CREATE TABLE IF NOT EXISTS "+db_name+" ( " +schema_string +" )")
 };
 
-var cartodbify_table = function (db_name, username){
-    return sql.execute("SELECT CDB_CARTODBFYTable('" + username + "', '" + db_name + "');");
+var cartodbify_table = function (db_name, username, team){
+    if (team){
+        return sql.execute("SELECT CDB_CARTODBFYTable('" + username + "', '" + db_name + "');");
+    }
+    else{
+        return sql.execute("SELECT CDB_CARTODBFYTable('"+ db_name + "');");
+    }
 };
 
 var create_update_function = function(db_name,schema){

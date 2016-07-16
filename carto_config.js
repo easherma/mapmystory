@@ -1,5 +1,6 @@
 module.exports={
     user: "",
     api_key: "",
-    db_name:""
+    db_name:"",
+    team : false
 }
