@@ -6,7 +6,6 @@ var db_name = credentials.db_name;
 var user_name = credentials.user;
 
 var schema = {
-    cartodb_id : 'NUMERIC',
     user_id  : 'TEXT',
     the_geom    : 'GEOMETRY',
     path_order    : 'NUMERIC',
@@ -52,7 +51,7 @@ var create_update_function = function(db_name,schema){
 
 create_database(db_name, schema).done(function(){
     console.log("created_database")
-    cartodbify_table(db_name, user_name).done(function(){
+    cartodbify_table(db_name, user_name, credentials.team).done(function(){
         console.log("CARTODBIFIED now creating update function");
         create_update_function(db_name, schema).error(function(error){
             console.log("something went wrong with the create function function")
