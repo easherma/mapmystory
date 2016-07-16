@@ -3,8 +3,8 @@
 <head>
   <title>SOTM</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.css">
-  <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.js"></script>
+  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.1/dist/leaflet.css">
+  <script src="https://npmcdn.com/leaflet@1.0.0-rc.1/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
   <script src="L.Polyline.SnakeAnim.js"></script>
@@ -20,6 +20,7 @@
 <body>
   <div id="map"></div>
   <script>
+//takes all user inputed points and marks them on the map
   function plotUser() {
 
     function plotMarkers ( latlng ) {
@@ -28,7 +29,7 @@
     var markers = userCoords.forEach(plotMarkers);
     return markers;
   }
-
+//adding the map and layers
     var map = L.map('map').setView([37.804146, -122.275045], 16);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
@@ -39,13 +40,12 @@
     var userCoords = [];
     //var userLabels = [];
     //var userStories = [];
-    var allGeo= {
-  "type": "FeatureCollection",
-  "features": []
-
+  var allGeo= {
+"type": "FeatureCollection",
+"features": []
 };
     sessionStorage.setItem("stories", "");
-    if (sessionStorage > 1) 
+    if (sessionStorage > 1)
     {var allGeo2 = JSON.parse(sessionStorage.stories)}
     var features = [];
     L.geoJson(features).addTo(map); //storypoints
@@ -53,11 +53,12 @@
 
     userLayer = L.featureGroup();
     var allStories = [];
-    geocoder.on('select', function (e) {
+//listening to event geocoder
+geocoder.on('select', function (e) {
   //get the selected feature, push it to a features array
   features.push(e.feature);
   console.log(e.feature);
-
+//coords  for polylines, pushes polylines to features
   userCoords.push(e.latlng);
   console.log(e.latlng)
   if (userCoords.length > 1)
