@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
   <script src="L.Polyline.SnakeAnim.js"></script>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
   <style>
     #map {
       height: 100%;
@@ -18,7 +22,48 @@
   </style>
 </head>
 <body>
-  <div id="map"></div>
+  <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+  <nav id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+          <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+          <li class="sidebar-brand">
+              <a href="#top"  onclick = $("#menu-close").click(); >Map My Story</a>
+          </li>
+          <li>
+              <a href="#map" onclick = $("#menu-close").click(); >Explore the Map</a>
+          </li>
+          <li>
+              <a href="#instructions" onclick = $("#menu-close").click(); >How does this work?</a>
+          </li>
+          <li>
+              <a href="#about" onclick = $("#menu-close").click(); >About</a>
+          </li>
+          <li class = "hidden">
+              <a href="#contact" onclick = $("#menu-close").click(); >Contact</a>
+          </li>
+      </ul>
+  </nav>
+      <script>
+      var title = "Where do you live?";
+      document.getElementsByClassName("modal-title").innerHTML = "Where do you live?";
+
+      </script>
+
+  <!-- Header -->
+  <header id="top" class="header">
+  <div class="row">
+      <div class="text-vertical-center col-md-3"><h1>Map My Story <!--    <span class="h3">  Map and share your migration story--></h1> </div>
+      <div class="text-vertical-center col-md-3"><h2> SOTM Edition</h2></div>
+      <div id="buttons" class="text-vertical-center col-md-6">
+      <button onclick='all_layer_group.snakeIn()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
+      <a href ="#map"> <button onclick='map.removeLayer(all_layer_group); geocoder.expand();  ' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a>
+      <a href="/" class="btn btn-dark btn-lg">See Another Story</a>
+      <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="map">
   <script>
 //takes all user inputed points and marks them on the map
   function plotUser() {
@@ -99,6 +144,39 @@ function submitGeoj() {
 
 
 
+  </script>
+  </div>
+
+  <!-- Custom Theme JavaScript -->
+  <script>
+  // Closes the sidebar menu
+  $("#menu-close").click(function(e) {
+      e.preventDefault();
+      $("#sidebar-wrapper").toggleClass("active");
+  });
+
+  // Opens the sidebar menu
+  $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#sidebar-wrapper").toggleClass("active");
+  });
+
+  // Scrolls to the selected menu item on the page
+  $(function() {
+      $('a[href*=#]:not([href=#])').click(function() {
+          if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+              var target = $(this.hash);
+              target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+              if (target.length) {
+                  $('html,body').animate({
+                      scrollTop: target.offset().top
+                  }, 1000);
+                  return false;
+              }
+          }
+      });
+  });
   </script>
 </body>
 </html>
