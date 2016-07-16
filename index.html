@@ -66,18 +66,25 @@ geocoder.on('select', function (e) {
   var polyline = L.polyline(userCoords)
   features.push(polyline.toGeoJSON())
 }
-//return polyline;
+return polyline;
 //  userLayer.bindPopup("TESTING" + userLabels[0] + " to: " + userLabels[1]);
 //  userLayer.addTo(map);
 
 });
 
+function polylineAnim() {
+  var line = L.polyline(userCoords, {snakingSpeed: 200});
+  line.addTo(map).snakeIn();
+}
+
+
+/* not used atm, I think I was trying to sketch out how to handle backend to/froms
 function submitStory() {
   allStories.push([userStories]);
   userStories = []
   //selection = []
 }
-
+*/
 function submitGeoj() {
 
   features.forEach(function(i) {allGeo.features.push(i)});
