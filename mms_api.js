@@ -33,7 +33,7 @@ API.prototype.get_data_for_user= function(user_id,callback){
 }
 
 API.prototype.get_data_for_all= function(callback){
-    this.sql.execute("select ST_AsGeoJSON(ArrayAgg(*)) from " + this.table_name).done(function(data){
+    this.sql.execute("select ST_AsGeoJSON(Array_Agg(*)) from " + this.table_name).done(function(data){
         callback(data)
     }.bind(this)
     ).error(function(error){
