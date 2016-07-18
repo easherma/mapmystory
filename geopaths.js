@@ -225,7 +225,7 @@ function drawMultipoints(multipoints,places,layer,bring_to_back){
 
   multipoints.forEach(function(mp,i){
     // Transform coordinate pairs from Lng,Lat to Lat,Lng
-    var coords = mp.geometry.coordinates.map(function(p){return p.reverse();});
+    var coords = coords;
 	color = getRandomColor()
     // Reverse coordinates and places so animation happens in chronological order
     coords.reverse();
@@ -237,12 +237,12 @@ function drawMultipoints(multipoints,places,layer,bring_to_back){
       layer.on('mouseover',function(e){addTooltip(e,{'type':'place','txt':layer.options.title});});
       layer.on('mouseout',function(e){removeTooltip({'type':'place'})});
     })(firstMarker);
-    /* label pop-ups
+     label pop-ups
     var plabel = places[i][0].place
 	var popup = L.popup()
     .setLatLng(coords[0])
     .setContent(plabel)
-    .addTo(map); */
+    .addTo(map);
     var route = L.featureGroup([firstMarker]);
     for (var j = 1; j < coords.length; j ++){
       var poly = L.polyline([coords[j-1],coords[j]], {color:color, opacity: j * .2 , weight: j * 1.5 });
@@ -253,13 +253,13 @@ function drawMultipoints(multipoints,places,layer,bring_to_back){
         layer.on('mouseover',function(e) {
 		e.layer.openPopup();
 		});
-    /*label popups
-    var plabel1 = places[i][j].place
+
+  var plabel1 = places[i][j].place
 	var popup1 = L.popup()
 		.setLatLng(coords[j])
 		.setContent(plabel1)
 		.addTo(map);
-	*/
+
 		//{addTooltip(e,{'type':'place','txt':layer.options.title});});
         layer.on('mouseout',function(e){removeTooltip({'type':'place'})});
       })(nextMarker);
