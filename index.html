@@ -56,7 +56,7 @@
       </script>
       <script>
         //var geoplaces = {{ carto_places|tojson }};
-        var geoplaces = []
+        var geoplaces = [];
       </script>
       <script>
         //var prevRowId = {{ last_row_id }};
@@ -79,7 +79,7 @@
   </header>
   <div id='map' class='dark'></div>
   <script src="geopaths.js"></script>
-  <!-- <div id="map">
+  <!-- <div id="map"> -->
   <script>
   function plotUser() {
 
@@ -91,13 +91,11 @@
   }
 
   var api = new API("easherma", "SOTM_test");
-    var map = L.map('map').setView([37.804146, -122.275045], 16);
+    /* var map = L.map('map').setView([37.804146, -122.275045], 16);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-    }).addTo(map);
+    }).addTo(map); */
     var markers = [];
-    //Use your own API key in place of search-xxxxxx. Get a key at mapzen.com/developers.
-    var geocoder = L.control.geocoder('search-daf-vyw').addTo(map);
     var userCoords = [];
 
     //var userLabels = [];
@@ -134,10 +132,6 @@ geocoder.on('select', function (e) {
 
 });
 
-function polylineAnim(coords) {
-  var line = L.polyline(coords, {snakingSpeed: 200});
-  line.addTo(map).snakeIn();
-}
 
 
 /* not used atm, I think I was trying to sketch out how to handle backend to/froms
@@ -163,7 +157,6 @@ function submitGeoj() {
 
   </script>
   </div>
--->
   <!-- Custom Theme JavaScript -->
   <script>
   // Closes the sidebar menu

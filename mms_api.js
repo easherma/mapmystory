@@ -35,8 +35,8 @@ API.prototype.get_data_for_user= function(user_id,callback){
 API.prototype.get_data_for_all= function(callback){
     this.sql.execute("select * from " + this.table_name).done(function(data){
         console.log(JSON.stringify(data));
-        var geoj = data ;
 
+        geoj.push(data);
         //var myLayer = L.geoJson().addTo(map);
         //myLayer.addData(data);
         //L.geoJson(data).addTo(map);
@@ -50,8 +50,7 @@ API.prototype.get_data_for_all= function(callback){
 
                 }).addTo(all_layer_group);
         //var all_layer_group = L.featureGroup(prepping);
-        var line = L.polyline(coords, {snakingSpeed: 200});
-        line.addTo(all_layer_group).snakeIn();
+        polylineAnim(coords);
         function callback(data) {
       };
     }.bind(this)

@@ -8,7 +8,7 @@ var normalLine = {weight:2.4,lineCap:'butt'};
 var title = "Title"
 var features = [];
 var coords = [];
-
+var geoj = [];
 //Create groupings for user-submitted results.
 //We will add points to this group as they are geocoded & confirmed by user.
 var confirmed_pts = L.layerGroup();
@@ -88,9 +88,25 @@ function submitGeoj() {
 
 }
 
+function postUserCoords(user_id, name, description ) {
+  for (var i = 0; i < userCoords.length; i++) {
+    api.post_data(user_id, {lat:userCoords[i]['lat'], lng:userCoords[i]['lng']}, Number(i+1),
+  {name: name,
+  description: description ,
+  pelias_properties: features[i]['properties']});
+  }
+}
+
+
 function polylineAnim(coords) {
-  var line = L.polyline(coords, {snakingSpeed: 200});
-  line.addTo(map).snakeIn();
+  //var line = L.polyline(coords, {snakingSpeed: 200});
+  //line.addTo(all_layer_group).snakeIn();
+  for (var j = 1; j < coords.length; j ++){
+    color = getRandomColor()
+    var line = L.polyline(coords, {snakingSpeed: 200, color:color, opacity: j * .2 , weight: j * .5 });
+      (line);
+    line.addTo(all_layer_group).snakeIn();
+  }
 }
 
 function geoj_to_features() {
@@ -221,6 +237,7 @@ function update_map() {
 }
 */
 
+
 function drawMultipoints(multipoints,places,layer,bring_to_back){
 
   multipoints.forEach(function(mp,i){
@@ -237,7 +254,7 @@ function drawMultipoints(multipoints,places,layer,bring_to_back){
       layer.on('mouseover',function(e){addTooltip(e,{'type':'place','txt':layer.options.title});});
       layer.on('mouseout',function(e){removeTooltip({'type':'place'})});
     })(firstMarker);
-     label pop-ups
+     //label pop-ups
     var plabel = places[i][0].place
 	var popup = L.popup()
     .setLatLng(coords[0])
