@@ -78,7 +78,16 @@
 
   <div id="map">
   <script>
+  function plotUser() {
 
+    function plotMarkers ( latlng ) {
+      L.marker( latlng ).addTo(map);
+    };
+    var markers = userCoords.forEach(plotMarkers);
+    return markers;
+  }
+
+  var api = new API("easherma", "SOTM_test");
     var map = L.map('map').setView([37.804146, -122.275045], 16);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
