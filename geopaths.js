@@ -16,8 +16,10 @@ var confirmed_pts = L.layerGroup();
 var user_layer_group = L.layerGroup();
 //Create grouping of all paths.
 //We will add paths to the group as they are retrieved from the db.
-var all_layer_group = L.featureGroup();
-
+var all_layer_group = L.featureGroup()
+    .bindPopup(geoj[0].features.properties.other_data)
+    //.on('mouseover', function() { all_layer_group.setStyle(biggerLine) })
+    //.on('mouseout', function() { all_layer_group.setStyle( normalLine ) });
 
 
 // Show the whole world in this first view.

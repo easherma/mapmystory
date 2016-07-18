@@ -51,8 +51,7 @@ API.prototype.get_data_for_all= function(callback){
                 })
         var all_layer_group = L.featureGroup(prepping)
             .bindPopup(geoj[0].features.properties.other_data)
-            .on('mouseover', function() { all_layer_group.setStyle(biggerLine) })
-            .on('mouseout', function() { all_layer_group.setStyle( normalLine ) });
+
         function callback(data) {
       };
     }.bind(this)
