@@ -45,13 +45,13 @@ API.prototype.get_data_for_all= function(callback){
                      onEachFeature: function (feature, layer) {
                          popupOptions = {maxWidth: 200};
                         layer.bindPopup(feature.properties.other_data);
-                        coords.push(feature.geometry.coordinates);
+                        coords.push([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]);
                     }
 
-                })
-        var all_layer_group = L.featureGroup(prepping)
-            .bindPopup(geoj[0].features.properties.other_data)
-
+                }).addTo(all_layer_group);
+        //var all_layer_group = L.featureGroup(prepping);
+        var line = L.polyline(coords, {snakingSpeed: 200});
+        line.addTo(all_layer_group).snakeIn();
         function callback(data) {
       };
     }.bind(this)
