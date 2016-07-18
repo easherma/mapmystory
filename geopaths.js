@@ -2,23 +2,24 @@
 
 // Declare global variables
 var UPDATE_INTERVAL = 30000; //unis of ms
-var geocoderResults; //Referenced in Pelias js 
+var geocoderResults; //Referenced in Pelias js
 var biggerLine = {weight:6,lineCap:'butt'};
 var normalLine = {weight:2.4,lineCap:'butt'};
 var title = "Title"
+var features = [];
+var coords = [];
 
 //Create groupings for user-submitted results.
 //We will add points to this group as they are geocoded & confirmed by user.
 var confirmed_pts = L.layerGroup();
 //We will add points to this group as they are submitted.
 var user_layer_group = L.layerGroup();
-
 //Create grouping of all paths.
 //We will add paths to the group as they are retrieved from the db.
-var all_layer_group = L.featureGroup()
-    .bindPopup(''+ JSON.parse(geoj).features[0].properties.pelias_label)
-    .on('mouseover', function() { all_layer_group.setStyle(biggerLine) })
-    .on('mouseout', function() { all_layer_group.setStyle( normalLine ) }); 
+var all_layer_group = L.featureGroup();
+    //.bindPopup(geoj[0].features.properties.other_data)
+    //.on('mouseover', function() { all_layer_group.setStyle(biggerLine) })
+    //.on('mouseout', function() { all_layer_group.setStyle( normalLine ) });
 
 
 // Show the whole world in this first view.
@@ -39,12 +40,12 @@ var geocoder =  L.control.geocoder('search-daf-vyw', geocoder_options).addTo(map
 // The form will sit on the bottom left of the map.
 // We will show/hide the form and clear its text as needed
 // instead of discarding & creating a new instance for each submission.
-var NotesControlClass = L.Control.extend(noteForm({isPopup:false})); 
+var NotesControlClass = L.Control.extend(noteForm({isPopup:false}));
 var notesControl = new NotesControlClass;
 map.addControl(notesControl);
 
 // this loads data into a leaflet layer
-drawMultipoints(JSON.parse(geoj).features,geoplaces,all_layer_group,false);
+//drawMultipoints(geoj.features,geoplaces,all_layer_group,false);
 
 //Create leaflet control to toggle map layers
 var baseMaps = {
@@ -77,6 +78,38 @@ $(function() {
 
 /* ************ FUNCTIONS *********** */
 
+function submitGeoj() {
+
+  features.forEach(function(i) {allGeo.features.push(i)});
+  userCoords = [];
+  console.log(JSON.stringify(allGeo));
+  sessionStorage.setItem("stories", JSON.stringify(allGeo));
+  features = [];
+
+}
+
+function polylineAnim(coords) {
+  var line = L.polyline(coords, {snakingSpeed: 200});
+  line.addTo(map).snakeIn();
+}
+
+function geoj_to_features() {
+  for (var i = 0; i < geoj.length; i++) {
+    console.log(geoj[i]['features'][i]['geometry']['coordinates'])
+  }
+}
+
+function logArrayElements(element, index, array) {
+  //console.log('a[' + index + '] = ' + JSON.stringify(element));
+  console.log('a[' + index + '] = ' + JSON.stringify(element));
+  //geoj[0]['features'][0]['geometry']['coordinates']
+}
+
+/*for (var i = 0, latlngs = [], len = route.length; i < len; i++) {
+			latlngs.push(new L.LatLng(route[i][0], route[i][1]));
+		}
+		var path = L.polyline(latlngs); */
+
 
 //random colors
 function getRandomColor() {
@@ -92,7 +125,8 @@ function getRandomColor() {
 // Executes periodically and indefinitely until server returns an error.
 // Operates asynchronously, so control flow is not tied up in this func.
 function update_map() {
-  $.ajax({
+  api.get_data_for_all();
+  /*$.ajax({
     type : "GET",
     url : "/more",
     data : "rowid=" + prevRowId,
@@ -110,6 +144,7 @@ function update_map() {
       console.log("error: " + error);
     }
   });
+  */
 }
 
 // Add array of Multipoint geoJSON features to a layer and animate.
@@ -125,7 +160,7 @@ function update_map() {
     places[i].reverse();
 	color = getRandomColor()
 
-    // Transform multipoint to featuregroup of alternating points and line segments. style 
+    // Transform multipoint to featuregroup of alternating points and line segments. style
     var firstMarker = L.circleMarker(coords[0],{color: color, radius:2,}, {title:places[i][0].place,note:places[i][0].note});
 	map.eachLayer(function (layer) {
     layer.bindPopup('Hello');
@@ -144,7 +179,7 @@ function update_map() {
     var route = L.featureGroup([firstMarker]);
     for (var j = 1; j < coords.length; j ++){
       var poly = L.polyline([coords[j-1],coords[j]], {color: color});
-	  
+
       (function(layer){
         layer.on('mouseover',function(e){
           layer.setStyle(biggerLine);
@@ -170,7 +205,7 @@ function update_map() {
       route.addLayer(nextMarker);
     }
 
-      
+
     // Add featuregroup to specified layer
     layer.addLayer(route);
 
@@ -179,7 +214,7 @@ function update_map() {
       layer.bringToBack();
     } else {
       // Run animation on the new route
-	  
+
       route.snakeIn();
     }
   });
@@ -224,13 +259,13 @@ function drawMultipoints(multipoints,places,layer,bring_to_back){
 		.setLatLng(coords[j])
 		.setContent(plabel1)
 		.addTo(map);
-	*/	
+	*/
 		//{addTooltip(e,{'type':'place','txt':layer.options.title});});
         layer.on('mouseout',function(e){removeTooltip({'type':'place'})});
       })(nextMarker);
       route.addLayer(nextMarker);
     }
-      
+
     // Add featuregroup to specified layer
     layer.addLayer(route);
 
@@ -268,12 +303,12 @@ function confirmCoord(coordPair,place) {
   };
   var confirmed_mark = L.circleMarker(coordPair,markerOptions).bindPopup(confirmation_msg);
   confirmed_pts.addLayer(confirmed_mark);
-  
+
   addNext(confirmed_mark);
   addClearThisBtn(confirmed_mark);
   addClearAllBtn(confirmed_mark);
   addNoteBtn(confirmed_mark);
-  addNoteFormMarkup(confirmed_mark); 
+  addNoteFormMarkup(confirmed_mark);
   geocoder.marker.unbindPopup();
 
   if (allowSubmit()){
@@ -294,8 +329,8 @@ function addClearThisBtn(confirmed_mark){
     //Prevent doubletap
     map.closePopup();
     clearThis(confirmed_mark);
-    if (confirmedLatLng.lat === geocoder.marker.getLatLng().lat 
-      && confirmedLatLng.lng === geocoder.marker.getLatLng().lng){    
+    if (confirmedLatLng.lat === geocoder.marker.getLatLng().lat
+      && confirmedLatLng.lng === geocoder.marker.getLatLng().lng){
         geocoder.marker.bindPopup(oldPopup);
       }
   });
@@ -303,7 +338,7 @@ function addClearThisBtn(confirmed_mark){
 }
 
 function clearThis(marker){
-  confirmed_pts.removeLayer(marker); 
+  confirmed_pts.removeLayer(marker);
 }
 
 function addClearAllBtn(confirmed_mark){
@@ -317,8 +352,8 @@ function addClearAllBtn(confirmed_mark){
     //Prevent doubletap
     map.closePopup();
     clearAll();
-    if (confirmedLatLng.lat === geocoder.marker.getLatLng().lat 
-      && confirmedLatLng.lng === geocoder.marker.getLatLng().lng){    
+    if (confirmedLatLng.lat === geocoder.marker.getLatLng().lat
+      && confirmedLatLng.lng === geocoder.marker.getLatLng().lng){
         geocoder.marker.bindPopup(oldPopup);
       }
   });
@@ -339,10 +374,10 @@ function addNext(confirmed_mark){
     $('html, body').animate({
     scrollTop: $(".leaflet-pelias-control").offset().top
 }, 1000);
-    
+
   });
   confirmed_mark.getPopup().getContent().appendChild(clearBtn);
-} 
+}
 
 function addNoteBtn(confirmed_mark){
   var noteBtn = document.createElement('button');
@@ -354,7 +389,7 @@ function addNoteBtn(confirmed_mark){
     confirmed_mark.options.note.show();
   });
   confirmed_mark.getPopup().getContent().appendChild(noteBtn);
-} 
+}
 
 function addNoteFormMarkup(confirmed_mark){
   var hiddenNoteForm = confirmed_mark.options.note.markup;
@@ -365,7 +400,7 @@ function addNoteFormMarkup(confirmed_mark){
 }
 
 function clearAll(){
-  confirmed_pts.clearLayers(); 
+  confirmed_pts.clearLayers();
 }
 
 function addSubmitBtn(confirmed_mark){
@@ -401,10 +436,10 @@ function showReadyToSubmit(marker){
     marker.unbindPopup().bindPopup(oldPopup);
   });
   confirmation_msg.appendChild(noBtn);
-  marker.unbindPopup().bindPopup(confirmation_msg).openPopup(); 
+  marker.unbindPopup().bindPopup(confirmation_msg).openPopup();
 }
 
-function submit(){  
+function submit(){
 
   // Doublecheck that there is enough to submit
   if (allowSubmit()){
@@ -414,7 +449,7 @@ function submit(){
     var latlngs = confirmed_pts.getLayers().reverse().map(function(d){return d.getLatLng();});
     var confirmed_poly = L.polyline(latlngs,{color:"yellow",snakingSpeed:400});
     // For setting hover styles, auto-invoked function recommended by:
-    // http://palewi.re/posts/2012/03/26/leaflet-recipe-hover-events-features-and-polygons/ 
+    // http://palewi.re/posts/2012/03/26/leaflet-recipe-hover-events-features-and-polygons/
     (function(layer,noteText){
       layer.on('mouseover',function(e){
         layer.setStyle(biggerLine);
@@ -451,9 +486,9 @@ function submit(){
 
 
 function post() {
-      
+
   var geoJ = confirmed_pts.toGeoJSON();
- 
+
   // Add path-specific note arbitrarily to first geojson feature
   geoJ.features[0].properties['pathnote'] = notesControl.getNote();
 
@@ -468,11 +503,11 @@ function post() {
   // Parse titles from markers and add to geoJSON representation
   var titles = confirmed_pts.getLayers().map(function(d){
    return d.options.title;
-  }); 
+  });
   geoJ.features.forEach(function(feat,i){
     feat.properties['place'] = titles[i];
   });
-  
+
 
   $.ajax({
     type : "POST",
@@ -518,7 +553,7 @@ function addTooltip(evnt,arg){
   // but we can style the inner div with CSS
   var classNm = arg.type === 'note' ? 'note-tooltip' : 'place-tooltip';
   var tt = L.divIcon({className:classNm,html:"<div>"+safeText+"</div>"});
-  // Not every user will enter a note, so only add marker to map if text is non-empty 
+  // Not every user will enter a note, so only add marker to map if text is non-empty
   if (safeText) L.marker(evnt.latlng,{icon:tt}).addTo(map);
 };
 
