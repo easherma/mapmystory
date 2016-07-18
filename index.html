@@ -110,7 +110,8 @@
     //var polyline = L.polyline(
 
     userLayer = L.featureGroup();
-    var allStories = [];
+    allLayer =  L.featureGroup([allStories]).addTo(map);
+    var allStories = []
 //listening to event geocoder
 geocoder.on('select', function (e) {
   //get the selected feature, push it to a features array
@@ -124,6 +125,10 @@ geocoder.on('select', function (e) {
   var polyline = L.polyline(userCoords)
   features.push(polyline.toGeoJSON())
 }
+
+
+
+
 //return polyline;
 //  userLayer.bindPopup("TESTING" + userLabels[0] + " to: " + userLabels[1]);
 //  userLayer.addTo(map);

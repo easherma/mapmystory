@@ -36,8 +36,9 @@ API.prototype.get_data_for_all= function(callback){
     this.sql.execute("select * from " + this.table_name).done(function(data){
         console.log(JSON.stringify(data));
         var myLayer = L.geoJson().addTo(map);
+        var testing = allStories.push(data);
         myLayer.addData(data);
-        L.geoJson(data).addTo(map);
+        //L.geoJson(data).addTo(map);
         function callback(data) {
       };
     }.bind(this)
