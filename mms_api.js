@@ -34,9 +34,25 @@ API.prototype.get_data_for_user= function(user_id,callback){
 
 API.prototype.get_data_for_all= function(callback){
     this.sql.execute("select * from " + this.table_name).done(function(data){
-        callback(data)
+        console.log(JSON.stringify(data));
+        var myLayer = L.geoJson().addTo(map);
+        myLayer.addData(data);
+        L.geoJson(data).addTo(map);
+        function callback(data) {
+      };
     }.bind(this)
     ).error(function(error){
         console.log("error with getting all users ", error);
     })
 }
+
+/*
+var sql = new cartodb.SQL({ user: 'easherma' });
+sql.execute("SELECT * FROM SOTM_test WHERE id > {{id}}", { id: 1 })
+  .done(function(data) {
+    console.log(data.rows);
+  })
+  .error(function(errors) {
+    // errors contains a list of errors
+    console.log("errors:" + errors);
+  })*/
