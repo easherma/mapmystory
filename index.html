@@ -47,10 +47,12 @@
       document.getElementsByClassName("modal-title").innerHTML = "Where do you live?";
 
       </script>
-      <script>
+      <script> -->
       api = new API("easherma", "SOTM_test")
         //var geoj = {{carto_geoj|tojson}};
-        var geoj = []
+        //var geoj = []
+
+
       </script>
       <script>
         //var geoplaces = {{ carto_places|tojson }};
@@ -61,7 +63,7 @@
         var prevRowId = []
       </script>
       <script src="notes.js"></script>
-      <script src="geopaths.js"></script>
+
   <!-- Header -->
   <header id="top" class="header">
   <div class="row">
@@ -75,8 +77,9 @@
       </div>
     </div>
   </header>
-
-  <div id="map">
+  <div id='map' class='dark'></div>
+  <script src="geopaths.js"></script>
+  <!-- <div id="map">
   <script>
   function plotUser() {
 
@@ -96,6 +99,7 @@
     //Use your own API key in place of search-xxxxxx. Get a key at mapzen.com/developers.
     var geocoder = L.control.geocoder('search-daf-vyw').addTo(map);
     var userCoords = [];
+
     //var userLabels = [];
     //var userStories = [];
   var allGeo= {
@@ -130,8 +134,8 @@ geocoder.on('select', function (e) {
 
 });
 
-function polylineAnim() {
-  var line = L.polyline(userCoords, {snakingSpeed: 200});
+function polylineAnim(coords) {
+  var line = L.polyline(coords, {snakingSpeed: 200});
   line.addTo(map).snakeIn();
 }
 
@@ -159,7 +163,7 @@ function submitGeoj() {
 
   </script>
   </div>
-
+-->
   <!-- Custom Theme JavaScript -->
   <script>
   // Closes the sidebar menu
