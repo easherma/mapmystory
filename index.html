@@ -7,7 +7,7 @@
   <script src="https://npmcdn.com/leaflet@1.0.0-rc.1/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
-  <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+  <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
   <script src="./mms_api.js"></script>
 
   <script src="L.Polyline.SnakeAnim.js"></script>
@@ -47,21 +47,23 @@
       document.getElementsByClassName("modal-title").innerHTML = "Where do you live?";
 
       </script>
-      <script>
+      <script> -->
       api = new API("easherma", "SOTM_test")
         //var geoj = {{carto_geoj|tojson}};
-        var geoj = []
+        //var geoj = []
+
+
       </script>
       <script>
         //var geoplaces = {{ carto_places|tojson }};
-        var geoplaces = []
+        var geoplaces = [];
       </script>
       <script>
         //var prevRowId = {{ last_row_id }};
         var prevRowId = []
       </script>
       <script src="notes.js"></script>
-      <script src="geopaths.js"></script>
+
   <!-- Header -->
   <header id="top" class="header">
   <div class="row">
@@ -70,13 +72,14 @@
       <div id="buttons" class="text-vertical-center col-md-6">
       <button onclick='all_layer_group.snakeIn()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
       <a href ="#map"> <button onclick='geocoder.expand();  ' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
-      <a href="/" class="btn btn-dark btn-lg">See Another Story</a>
+      <button onclick='postUserCoords("90", "dumb web dev", "testing, hardcoded");update_map();' class="btn btn-dark btn-lg">Post Your Route</button>
       <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a>
       </div>
     </div>
   </header>
-
-  <div id="map">
+  <div id='map' class='dark'></div>
+  <script src="geopaths.js"></script>
+  <!-- <div id="map"> -->
   <script>
   function plotUser() {
 
@@ -88,14 +91,13 @@
   }
 
   var api = new API("easherma", "SOTM_test");
-    var map = L.map('map').setView([37.804146, -122.275045], 16);
+    /* var map = L.map('map').setView([37.804146, -122.275045], 16);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-    }).addTo(map);
+    }).addTo(map); */
     var markers = [];
-    //Use your own API key in place of search-xxxxxx. Get a key at mapzen.com/developers.
-    var geocoder = L.control.geocoder('search-daf-vyw').addTo(map);
     var userCoords = [];
+
     //var userLabels = [];
     //var userStories = [];
   var allGeo= {
@@ -135,10 +137,6 @@ geocoder.on('select', function (e) {
 
 });
 
-function polylineAnim() {
-  var line = L.polyline(userCoords, {snakingSpeed: 200});
-  line.addTo(map).snakeIn();
-}
 
 
 /* not used atm, I think I was trying to sketch out how to handle backend to/froms
@@ -164,7 +162,6 @@ function submitGeoj() {
 
   </script>
   </div>
-
   <!-- Custom Theme JavaScript -->
   <script>
   // Closes the sidebar menu

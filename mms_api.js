@@ -35,10 +35,21 @@ API.prototype.get_data_for_user= function(user_id,callback){
 API.prototype.get_data_for_all= function(callback){
     this.sql.execute("select * from " + this.table_name).done(function(data){
         console.log(JSON.stringify(data));
-        var myLayer = L.geoJson().addTo(map);
-        var testing = allStories.push(data);
-        myLayer.addData(data);
+        geoj.push(data);
+        //var myLayer = L.geoJson().addTo(map);
+        //myLayer.addData(data);
         //L.geoJson(data).addTo(map);
+        var prepping = L.geoJson(data, {
+
+                     onEachFeature: function (feature, layer) {
+                         popupOptions = {maxWidth: 200};
+                        layer.bindPopup(feature.properties.other_data);
+                        coords.push([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]);
+                    }
+
+                }).addTo(all_layer_group);
+        //var all_layer_group = L.featureGroup(prepping);
+        polylineAnim(coords);
         function callback(data) {
       };
     }.bind(this)
