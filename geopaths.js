@@ -77,6 +77,18 @@ $(function() {
 */
 
 /* ************ FUNCTIONS *********** */
+function confirm() {
+  userCoords.push(geocoderCoords);
+  features.push(feature);
+
+}
+
+function resetCloseInput() {
+
+      geocoder.resetInput();
+      map.closePopup();
+
+}
 
 function submitGeoj() {
 
@@ -88,13 +100,14 @@ function submitGeoj() {
 
 }
 
-function postUserCoords(user_id, name, description ) {
+function postUserFeatures(user_id, name, description) {
   for (var i = 0; i < userCoords.length; i++) {
     api.post_data(user_id, {lat:userCoords[i]['lat'], lng:userCoords[i]['lng']}, Number(i+1),
   {name: name,
   description: description ,
   pelias_properties: features[i]['properties']});
   }
+
 }
 
 
@@ -242,11 +255,11 @@ function drawMultipoints(multipoints,places,layer,bring_to_back){
 
   multipoints.forEach(function(mp,i){
     // Transform coordinate pairs from Lng,Lat to Lat,Lng
-    var coords = coords;
+  var coords = mp.geometry.coordinates;
 	color = getRandomColor()
     // Reverse coordinates and places so animation happens in chronological order
-    coords.reverse();
-    places[i].reverse();
+  //  coords.reverse();
+  //  places[i].reverse();
 
     // Transform multipoint to featuregroup of alternating points and line segments.
     var firstMarker = L.circleMarker(coords[0],{radius:2,color:color, opacity: 0});
