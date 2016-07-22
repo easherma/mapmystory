@@ -116,10 +116,16 @@
 //listening to event geocoder
 geocoder.on('select', function (e) {
   //get the selected feature, push it to a features array
+
   features.push(e.feature);
-  console.log(e.feature);
+  console.log(e.feature.properties.name);
 //coords  for polylines, pushes polylines to features
-  userCoords.push(e.latlng);
+  geocoderCoords = e.latlng;
+  var popup = L.popup()
+    .setLatLng(geocoder.marker._latlng)
+    //.setContent("<button>First name:<br><input type='text' name='firstname' value='Your first name' ><br>Last name:<br><input type='text' name='RaisonSociale' value='Your last name'><input class='click' type='submit' name='submit' value='Sent'></button>")
+    .setContent(e.feature.properties.name + ' <button onclick= "userCoords.push(geocoderCoords);geocoder.resetInput();map.closePopup();" type="submit">Confirm</button> <button onclick= "userCoords = [];geocoder.resetInput();map.closePopup();" type="reset">Clear</button>')
+    .openOn(map);
   console.log(e.latlng)
   if (userCoords.length > 1)
 {

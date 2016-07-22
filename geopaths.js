@@ -318,7 +318,7 @@ function confirmCoord(coordPair,place) {
     color : 'yellow',
     note : noteForm({isPopup:true})
   };
-  var confirmed_mark = L.circleMarker(coordPair,markerOptions).bindPopup(confirmation_msg);
+  var confirmed_mark = L.circleMarker(userCoords,markerOptions).bindPopup(confirmation_msg);
   confirmed_pts.addLayer(confirmed_mark);
 
   addNext(confirmed_mark);
