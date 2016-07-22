@@ -35,6 +35,8 @@ API.prototype.get_data_for_user= function(user_id,callback){
 API.prototype.get_data_for_all= function(callback){
     this.sql.execute("select * from " + this.table_name).done(function(data){
         console.log(JSON.stringify(data));
+        var test = _.groupBy(data, 'user_id');
+        console.log(test);
 
         geoj.push(data);
         //var myLayer = L.geoJson().addTo(map);
