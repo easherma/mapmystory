@@ -33,15 +33,35 @@ API.prototype.get_data_for_user= function(user_id,callback){
 }
 
 API.prototype.get_data_for_all= function(callback){
-    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, array_agg(the_geom) AS geoms, array_agg(other_data) other_data, array_agg(path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
-        console.log(JSON.stringify(data));
+    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, ST_MakeLine(ST_FlipCoordinates(the_geom)) AS the_geom, array_agg(other_data) other_data, array_agg(path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
+        console.log(data);
         console.log(L.geoJson(data));
+        console.log(data.features.length);
 
-        geoj.push(data);
+         geoj = L.geoJSON(data, {
+
+                     onEachFeature: function (feature, layer) {
+                         popupOptions = {maxWidth: 200};
+                        layer.bindPopup(feature.properties.other_data);
+                        color = getRandomColor();
+                        coords = feature.geometry.coordinates;
+                        polylineAnim(feature.geometry.coordinates)
+                        console.log(feature.geometry.coordinates.length);
+
+                        //polylineAnim(coords);
+                        //var line = L.polyline(feature.geometry.coordinates, {snakingSpeed: 200});
+                        //line.addTo(all_layer_group);
+                        //L.polyline(feature.geometry.coordinates).addTo(map).snakeIn();
+                    }
+
+                });
+                //polylineAnim(coords);*/
+
+        //geoj.push(L.geoJSON(data));
         //var myLayer = L.geoJson().addTo(map);
         //myLayer.addData(data);
         //L.geoJson(data).addTo(map);
-        var prepping = L.geoJson(data, {
+        /*var prepping = L.geoJson(data, {
 
                      onEachFeature: function (feature, layer) {
                          popupOptions = {maxWidth: 200};
@@ -53,7 +73,7 @@ API.prototype.get_data_for_all= function(callback){
                         coords.push([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]);
                     }
 
-                }).addTo(all_layer_group);
+                }).addTo(all_layer_group);*/
 
         //var all_layer_group = L.featureGroup(prepping);
 
