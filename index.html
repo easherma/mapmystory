@@ -117,21 +117,18 @@
 geocoder.on('select', function (e) {
   //get the selected feature, push it to a features array
 
-  features.push(e.feature);
-  console.log(e.feature.properties.name);
+  feature = e.feature;
+  console.log(e.feature);
+  console.log(feature);
 //coords  for polylines, pushes polylines to features
   geocoderCoords = e.latlng;
   var popup = L.popup()
     .setLatLng(geocoder.marker._latlng)
     //.setContent("<button>First name:<br><input type='text' name='firstname' value='Your first name' ><br>Last name:<br><input type='text' name='RaisonSociale' value='Your last name'><input class='click' type='submit' name='submit' value='Sent'></button>")
-    .setContent(e.feature.properties.name + ' <button onclick= "userCoords.push(geocoderCoords);geocoder.resetInput();map.closePopup();" type="submit">Confirm</button> <button onclick= "userCoords = [];geocoder.resetInput();map.closePopup();" type="reset">Clear</button>')
+    .setContent(e.feature.properties.name + ' <button onclick= "confirm(resetCloseInput());" type="submit">Confirm</button> <button onclick= "userCoords = [];features = [];geocoder.resetInput();map.closePopup();" type="reset">Clear</button>')
     .openOn(map);
   console.log(e.latlng)
-  if (userCoords.length > 1)
-{
-  var polyline = L.polyline(userCoords)
-  features.push(polyline.toGeoJSON())
-}
+//  if (userCoords.length > 1)
 //return polyline;
 //  userLayer.bindPopup("TESTING" + userLabels[0] + " to: " + userLabels[1]);
 //  userLayer.addTo(map);

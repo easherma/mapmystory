@@ -77,6 +77,18 @@ $(function() {
 */
 
 /* ************ FUNCTIONS *********** */
+function confirm() {
+  userCoords.push(geocoderCoords);
+  features.push(feature);
+
+}
+
+function resetCloseInput() {
+
+      geocoder.resetInput();
+      map.closePopup();
+
+}
 
 function submitGeoj() {
 
