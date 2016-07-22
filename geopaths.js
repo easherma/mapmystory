@@ -242,11 +242,11 @@ function drawMultipoints(multipoints,places,layer,bring_to_back){
 
   multipoints.forEach(function(mp,i){
     // Transform coordinate pairs from Lng,Lat to Lat,Lng
-    var coords = coords;
+  var coords = mp.geometry.coordinates;
 	color = getRandomColor()
     // Reverse coordinates and places so animation happens in chronological order
-    coords.reverse();
-    places[i].reverse();
+  //  coords.reverse();
+  //  places[i].reverse();
 
     // Transform multipoint to featuregroup of alternating points and line segments.
     var firstMarker = L.circleMarker(coords[0],{radius:2,color:color, opacity: 0});

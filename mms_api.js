@@ -33,8 +33,9 @@ API.prototype.get_data_for_user= function(user_id,callback){
 }
 
 API.prototype.get_data_for_all= function(callback){
-    this.sql.execute("select * from " + this.table_name).done(function(data){
+    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, array_agg(ST_AsGeoJSON(the_geom)) AS geoms, array_agg(other_data) other_data, array_agg(path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
         console.log(JSON.stringify(data));
+        console.log(L.geoJson(data));
 
         geoj.push(data);
         //var myLayer = L.geoJson().addTo(map);
@@ -45,12 +46,18 @@ API.prototype.get_data_for_all= function(callback){
                      onEachFeature: function (feature, layer) {
                          popupOptions = {maxWidth: 200};
                         layer.bindPopup(feature.properties.other_data);
+                        color = getRandomColor();
+                        var line = L.polyline([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {snakingSpeed: 200, color:color});
+                          (line);
+                        line.addTo(map).snakeIn();
                         coords.push([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]);
                     }
 
                 }).addTo(all_layer_group);
+
         //var all_layer_group = L.featureGroup(prepping);
-        polylineAnim(coords);
+
+
         function callback(data) {
       };
     }.bind(this)
