@@ -33,7 +33,7 @@ API.prototype.get_data_for_user= function(user_id,callback){
 }
 
 API.prototype.get_data_for_all= function(callback){
-    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, array_agg(ST_AsGeoJSON(the_geom)) AS geoms, array_agg(other_data) other_data, array_agg(path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
+    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, array_agg(the_geom) AS geoms, array_agg(other_data) other_data, array_agg(path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
         console.log(JSON.stringify(data));
         console.log(L.geoJson(data));
 
