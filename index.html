@@ -72,7 +72,7 @@
       <div id="buttons" class="text-vertical-center col-md-6">
       <button onclick='all_layer_group.snakeIn()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
       <a href ="#map"> <button onclick='geocoder.expand();  ' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
-      <button onclick='postUserCoords("90", "dumb web dev", "testing, hardcoded");update_map();' class="btn btn-dark btn-lg">Post Your Route</button>
+      <button onclick='postUserFeatures(initialTimestamp + Math.random(), "dumb web dev", "testing, hardcoded");' class="btn btn-dark btn-lg">Post Your Route</button>
       <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a>
       </div>
     </div>
@@ -113,12 +113,16 @@
 
     userLayer = L.featureGroup();
     var allStories = [];
+    var  timestamps = [];
 //listening to event geocoder
 geocoder.on('select', function (e) {
   //get the selected feature, push it to a features array
 
   feature = e.feature;
-  console.log(e.feature);
+
+
+  timestamps.push(e.originalEvent['timeStamp']);
+  initialTimestamp = timestamps[0];
   console.log(feature);
 //coords  for polylines, pushes polylines to features
   geocoderCoords = e.latlng;

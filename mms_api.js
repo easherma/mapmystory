@@ -16,6 +16,7 @@ API.prototype.post_data = function(user_id, point, order, data , callback){
   console.log('query ', query)
   this.sql.execute(query).done(function(data){
     console.log("updated data")
+    update_map();
   }).error(function(error){
     console.log("failed to update data")
   })

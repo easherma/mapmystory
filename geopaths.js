@@ -100,13 +100,14 @@ function submitGeoj() {
 
 }
 
-function postUserCoords(user_id, name, description ) {
+function postUserFeatures(user_id, name, description) {
   for (var i = 0; i < userCoords.length; i++) {
     api.post_data(user_id, {lat:userCoords[i]['lat'], lng:userCoords[i]['lng']}, Number(i+1),
   {name: name,
   description: description ,
   pelias_properties: features[i]['properties']});
   }
+
 }
 
 
