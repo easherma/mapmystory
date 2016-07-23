@@ -116,8 +116,9 @@ function confirm() {
 
   features.push(feature);
   if (userCoords.length >= 2) {
+    if (typeof submitBtn == "undefined") {
     map.addControl(new postControl());
-
+  }
   }
 
 }
