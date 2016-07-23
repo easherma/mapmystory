@@ -24,7 +24,7 @@ var all_layer_group = L.featureGroup();
 
 // Show the whole world in this first view.
 var map = L.map('map', {
-  bounceAtZoomLimits: true,
+  bounceAtZoomLimits: false,
   maxBounds: [[-85.0, -180.0],[85.0, 180.0]],
   inertia: false,
   minZoom: 2,
