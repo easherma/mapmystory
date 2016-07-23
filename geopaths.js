@@ -60,6 +60,28 @@ var overlayControl = L.control.layers(baseMaps,overlayMaps);
 overlayControl.options.position = 'bottomright';
 overlayControl.addTo(map);
 
+var postControl = L.Control.extend({
+
+  options: {
+    position: 'topright'
+    //control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
+  },
+
+  onAdd: function (map) {
+      var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+      container.innerHTML =
+      '<form id= "form"> Name:<br> <input id="name" type="text" name="name" ><br> Addl Notes:<br> <input type="text" name="description" form = "form"> </form>' + "<button id ='submitBtn' class='btn btn-dark btn-md'> I'm done, post my route!</button>"
+      console.log(container)
+      container.onclick = function(){
+        submitListen();
+      }
+      return container;
+    }
+
+});
+
+
+
 //Gets new rows from the server and plots them.
 //update_map executes periodically and indefinitely until server returns error
 // It is also asynchronous, so control moves past this line
@@ -79,9 +101,25 @@ $(function() {
 /* ************ FUNCTIONS *********** */
 function confirm() {
   userCoords.push(geocoderCoords);
+
+
   features.push(feature);
+  if (userCoords.length >= 2) {
+    map.addControl(new postControl());
+
+  }
 
 }
+
+function submitListen() {
+  L.map.container.submitBtn.once('click',function(){
+    //Prevent doubletap
+    //postUserFeatures(initialTimestamp + Math.random(), "whut", "does")
+    console.log("whut");
+  });
+}
+
+
 
 function resetCloseInput() {
 
@@ -101,24 +139,27 @@ function submitGeoj() {
 }
 
 function postUserFeatures(user_id, name, description) {
-  for (var i = 0; i < userCoords.length; i++) {
+  for (var i = 0; i < features.length; i++) {
     api.post_data(user_id, {lat:userCoords[i]['lat'], lng:userCoords[i]['lng']}, Number(i+1),
-  {name: name,
-  description: description ,
-  pelias_properties: features[i]['properties']});
+  {"name": name,
+  "description": description,
+  "pelias_properties": features[i]['properties']
+});
   }
 
 }
 
 
-function polylineAnim(coords) {
+function polylineAnim(coords, label) {
   //var line = L.polyline(coords, {snakingSpeed: 200});
   //line.addTo(all_layer_group).snakeIn();
   for (var j = 1; j < coords.length; j ++){
     color = getRandomColor()
-    var line = L.polyline(coords, {snakingSpeed: 200, color:color, opacity: j * .2 , weight: j * .5 });
+    var line = L.polyline(coords, {snakingSpeed: 450, color:color, opacity: 3 , weight: 4 });
       (line);
     line.addTo(all_layer_group).snakeIn();
+    line.bindPopup(label);
+    //line.setPopupContent(label);
   }
 }
 

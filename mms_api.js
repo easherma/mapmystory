@@ -12,10 +12,12 @@ API.prototype.post_data = function(user_id, point, order, data , callback){
   ', CDB_LATLNG(' + point.lat + ", "+point.lng+") "+
   ", "+order + "::Numeric "+
   ", '"+JSON.stringify(data)+ "'::json)"
-
+  console.log("sending data: ")
+  console.log(data)
   console.log('query ', query)
   this.sql.execute(query).done(function(data){
     console.log("updated data")
+    $(".leaflet-bar.leaflet-control.leaflet-control-custom").remove();
     update_map();
   }).error(function(error){
     console.log("failed to update data")
@@ -35,7 +37,7 @@ API.prototype.get_data_for_user= function(user_id,callback){
 
 API.prototype.get_data_for_all= function(callback){
 
-    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, ST_MakeLine(ST_FlipCoordinates(the_geom)) AS the_geom, array_agg(other_data) other_data, array_agg(path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
+    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, ST_FlipCoordinates(ST_MakeLine(the_geom)) AS the_geom, json_agg(other_data) other_data, array_agg(path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
         console.log(data);
         console.log(L.geoJson(data));
         console.log(data.features.length);
@@ -44,11 +46,23 @@ API.prototype.get_data_for_all= function(callback){
 
                      onEachFeature: function (feature, layer) {
                          popupOptions = {maxWidth: 200};
-                        layer.bindPopup(feature.properties.other_data);
+                        //layer.bindPopup(feature.properties.other_data);
                         color = getRandomColor();
+
+
+                        var labelData = feature.properties.other_data;
+                        console.log(labelData.length);
+                        labels = [];
+                        for (var i = 0; i < labelData.length; i++) {
+                          labels.push("Point " + (i+1) + ": " + labelData[i]['pelias_properties']['label'] + " Description: " + labelData[i]['description'] + " Name: " + labelData[i]['name'] )
+                          console.log(labelData[i]);
+                        }
+                        var chosenLabels = JSON.stringify(labels);
+                        //console.log(labelData[0].pelias_properties);
+                        //console.log(labelData);
                         coords = feature.geometry.coordinates;
-                        polylineAnim(feature.geometry.coordinates)
-                        console.log(feature.geometry.coordinates.length);
+                        polylineAnim(feature.geometry.coordinates, chosenLabels)
+                        //console.log(feature.geometry.coordinates.length);
 
                         //polylineAnim(coords);
                         //var line = L.polyline(feature.geometry.coordinates, {snakingSpeed: 200});

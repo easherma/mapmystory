@@ -70,17 +70,19 @@
       <div class="text-vertical-center col-md-3"><h1>Map My Story <!--    <span class="h3">  Map and share your migration story--></h1> </div>
       <div class="text-vertical-center col-md-3"><h2> SOTM Edition</h2></div>
       <div id="buttons" class="text-vertical-center col-md-6">
-      <button onclick='all_layer_group.snakeIn()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
-      <a href ="#map"> <button onclick='geocoder.expand();  ' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
-      <button onclick='postUserFeatures(initialTimestamp + Math.random(), "dumb web dev", "testing, hardcoded");' class="btn btn-dark btn-lg">Post Your Route</button>
-      <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a>
+      <button onclick='update_map()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
+      <a href ="#map"> <button onclick='geocoder.expand();' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
+      <!-- <button onclick='postUserFeatures(initialTimestamp + Math.random(), "dumb web dev", "testing, hardcoded");' class="btn btn-dark btn-lg">Post Your Route</button> -->
+      <!-- <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a> -->
       </div>
     </div>
   </header>
   <div id='map' class='dark'></div>
   <script src="geopaths.js"></script>
   <!-- <div id="map"> -->
+
   <script>
+
   function plotUser() {
 
     function plotMarkers ( latlng ) {
@@ -98,12 +100,10 @@
     var markers = [];
     var userCoords = [];
 
+
     //var userLabels = [];
     //var userStories = [];
-  var allGeo= {
-"type": "FeatureCollection",
-"features": []
-};
+
     sessionStorage.setItem("stories", "");
     if (sessionStorage > 1)
     {var allGeo2 = JSON.parse(sessionStorage.stories)}
@@ -129,7 +129,7 @@ geocoder.on('select', function (e) {
   var popup = L.popup()
     .setLatLng(geocoder.marker._latlng)
     //.setContent("<button>First name:<br><input type='text' name='firstname' value='Your first name' ><br>Last name:<br><input type='text' name='RaisonSociale' value='Your last name'><input class='click' type='submit' name='submit' value='Sent'></button>")
-    .setContent(e.feature.properties.name + ' <button onclick= "confirm(resetCloseInput());" type="submit">Confirm</button> <button onclick= "userCoords = [];features = [];geocoder.resetInput();map.closePopup();" type="reset">Clear</button>')
+    .setContent(e.feature.properties.name + ' <button onclick= "confirm(resetCloseInput());" type="submit" class="btn btn-md btn-dark" style="background-color:#337AB7">Confirm</button> <button onclick= "userCoords = [];features = [];geocoder.resetInput();map.closePopup();" type="reset" class="btn btn-md btn-dark">Clear</button>')
     .openOn(map);
   console.log(e.latlng)
 //  if (userCoords.length > 1)
