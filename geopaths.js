@@ -70,17 +70,28 @@ var postControl = L.Control.extend({
   onAdd: function (map) {
       var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
       container.innerHTML =
-      '<form id= "form"> Name:<br> <input id="name" type="text" name="name" ><br> Addl Notes:<br> <input type="text" name="description" form = "form"> </form>' + "<button id ='submitBtn' class='btn btn-dark btn-md'> I'm done, post my route!</button>"
+      "<button id ='submitBtn' class='btn btn-dark btn-md' onclick='postUserFeatures(initialTimestamp + Math.random(), 'testing', 'nocustomform');' > I'm done, post my route!</button>"
       console.log(container)
       container.onclick = function(){
-        submitListen();
+        submitBtn.onclick(postUserFeatures(initialTimestamp + Math.random(), "testing", "nocustomform"))
+
       }
       return container;
     }
 
 });
 
-
+function addSubmitBtn(confirmed_mark){
+  var submitBtn = document.createElement('a');
+  submitBtn.className = "btn btn-dark btn-sm";
+  submitBtn.innerHTML = "Submit My Story";
+  submitBtn.addEventListener('click',function(){
+    //Prevent doubletap
+    map.closePopup();
+    showReadyToSubmit(confirmed_mark);
+  });
+  confirmed_mark.getPopup().getContent().appendChild(submitBtn);
+}
 
 //Gets new rows from the server and plots them.
 //update_map executes periodically and indefinitely until server returns error
@@ -113,9 +124,9 @@ function confirm() {
 
 function submitListen() {
   L.map.container.submitBtn.once('click',function(){
-    //Prevent doubletap
-    //postUserFeatures(initialTimestamp + Math.random(), "whut", "does")
-    console.log("whut");
+
+    postUserFeatures(initialTimestamp + Math.random(), "testing", "nocustomform")
+
   });
 }
 
