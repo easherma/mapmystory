@@ -71,7 +71,7 @@ var postControl = L.Control.extend({
       var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
       container.innerHTML =
       "<button id ='submitBtn' class='btn btn-dark btn-md' onclick='postUserFeatures(initialTimestamp + Math.random(), 'testing', 'nocustomform');' > I'm done, post my route!</button>"
-      console.log(container)
+      //console.log(container)
       container.onclick = function(){
         submitBtn.onclick(postUserFeatures(initialTimestamp + Math.random(), "testing", "nocustomform"))
 
@@ -144,7 +144,7 @@ function submitGeoj() {
 
   features.forEach(function(i) {allGeo.features.push(i)});
   userCoords = [];
-  console.log(JSON.stringify(allGeo));
+  //console.log(JSON.stringify(allGeo));
   sessionStorage.setItem("stories", JSON.stringify(allGeo));
   features = [];
 
@@ -169,7 +169,7 @@ function polylineAnim(coords, label) {
     color = getRandomColor()
     var line = L.polyline(coords, {snakingSpeed: 450, color:color, opacity: .05 , weight: 2});
       (line);
-      //console.log("coords lenght: " , coords)
+      ////console.log("coords lenght: " , coords)
       for (var i = 0; i < coords.length; i++) {
         var point = L.circleMarker(coords[i], {radius: 2.5,color:color,opacity: .05, stroke: true, weight: .5, fill:true});
         point.addTo(map);
@@ -185,13 +185,13 @@ function polylineAnim(coords, label) {
 
 function geoj_to_features() {
   for (var i = 0; i < geoj.length; i++) {
-    console.log(geoj[i]['features'][i]['geometry']['coordinates'])
+    //console.log(geoj[i]['features'][i]['geometry']['coordinates'])
   }
 }
 
 function logArrayElements(element, index, array) {
+  ////console.log('a[' + index + '] = ' + JSON.stringify(element));
   //console.log('a[' + index + '] = ' + JSON.stringify(element));
-  console.log('a[' + index + '] = ' + JSON.stringify(element));
   //geoj[0]['features'][0]['geometry']['coordinates']
 }
 
@@ -231,7 +231,7 @@ function update_map() {
       setTimeout(update_map,UPDATE_INTERVAL);
     },
     error : function(error) {
-      console.log("error: " + error);
+      //console.log("error: " + error);
     }
   });
   */
@@ -606,10 +606,10 @@ function post() {
     data: JSON.stringify(geoJ),
     contentType: 'application/json',
     success: function(result) {
-      console.log("success");
+      //console.log("success");
     },
     error: function (error) {
-      console.log("error: " + eval(error));
+      //console.log("error: " + eval(error));
     }
   });
 };
