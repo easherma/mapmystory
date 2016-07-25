@@ -56,7 +56,7 @@ API.prototype.get_data_for_all= function(callback){
                         for (var i = 0; i < labelData.length; i++) {
                           labels.push("<b>Point " + (labelData.length - i ) + ": </b>" + labelData[i]['pelias_properties']['label'] +"<br>" /* + "<br>/* Description: " +  labelData[i]['description'] + *"<br> Name: " + labelData[i]['name']*/
                         )
-                          console.log(labelData[i]);
+                          //console.log(labelData[i]);
                         }
 
                         var chosenLabels = JSON.stringify(labels).replace(/\"/g, "").replace(/[\[\]']+/g, '').replace(/,/g , '');
