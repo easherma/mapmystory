@@ -169,7 +169,7 @@ function polylineAnim(coords, label) {
     color = getRandomColor()
     var line = L.polyline(coords, {snakingSpeed: 450, color:color, opacity: .05 , weight: 2});
       (line);
-      console.log("coords lenght: " , coords)
+      //console.log("coords lenght: " , coords)
       for (var i = 0; i < coords.length; i++) {
         var point = L.circleMarker(coords[i], {radius: 2.5,color:color,opacity: .05, stroke: true, weight: .5, fill:true});
         point.addTo(map);
