@@ -167,8 +167,16 @@ function polylineAnim(coords, label) {
   //line.addTo(all_layer_group).snakeIn();
   for (var j = 1; j < coords.length; j ++){
     color = getRandomColor()
-    var line = L.polyline(coords, {snakingSpeed: 450, color:color, opacity: 3 , weight: 4 });
+    var line = L.polyline(coords, {snakingSpeed: 450, color:color, opacity: .05 , weight: 2});
       (line);
+      console.log("coords lenght: " , coords)
+      for (var i = 0; i < coords.length; i++) {
+        var point = L.circleMarker(coords[i], {radius: 2.5,color:color,opacity: .05, stroke: true, weight: .5, fill:true});
+        point.addTo(map);
+        point.bindPopup(label);
+      }
+    //var point = L.circleMarker(coords);
+    //point.addTo(map);
     line.addTo(all_layer_group).snakeIn();
     line.bindPopup(label);
     //line.setPopupContent(label);

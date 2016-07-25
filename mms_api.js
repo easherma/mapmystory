@@ -25,7 +25,7 @@ API.prototype.post_data = function(user_id, point, order, data , callback){
 };
 
 
-API.prototype.get_data_for_user= function(user_id,callback){
+API.prototype.get_data_for_user= function(user_id){
     this.sql.execute("select * from " + this.table_name + " where user_id = '"+user_id +"'").done(
         function(data){
             callback(data);
@@ -54,10 +54,12 @@ API.prototype.get_data_for_all= function(callback){
                         console.log(labelData.length);
                         labels = [];
                         for (var i = 0; i < labelData.length; i++) {
-                          labels.push("Point " + (i+1) + ": " + labelData[i]['pelias_properties']['label'] + " Description: " + labelData[i]['description'] + " Name: " + labelData[i]['name'] )
+                          labels.push("<b>Point " + (labelData.length - i ) + ": </b>" + labelData[i]['pelias_properties']['label'] +"<br>" /* + "<br>/* Description: " +  labelData[i]['description'] + *"<br> Name: " + labelData[i]['name']*/
+                        )
                           console.log(labelData[i]);
                         }
-                        var chosenLabels = JSON.stringify(labels);
+
+                        var chosenLabels = JSON.stringify(labels).replace(/\"/g, "").replace(/[\[\]']+/g, '').replace(/,/g , '');
                         //console.log(labelData[0].pelias_properties);
                         //console.log(labelData);
                         coords = feature.geometry.coordinates;
