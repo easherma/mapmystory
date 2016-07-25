@@ -37,7 +37,7 @@ API.prototype.get_data_for_user= function(user_id,callback){
 
 API.prototype.get_data_for_all= function(callback){
 
-    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, ST_MakeLine(ST_FlipCoordinates(the_geom)) AS the_geom, json_agg(other_data) other_data, array_agg(path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
+    this.sql.execute("SELECT user_id, array_agg(cartodb_id) carto_ids, ST_MakeLine(ST_FlipCoordinates(the_geom)) AS the_geom, json_agg(other_data) other_data, array_agg(path_order ORDER BY path_order) path_order FROM " + this.table_name + " GROUP BY user_id  ORDER by path_order").done(function(data){
         console.log(data);
         console.log(L.geoJson(data));
         console.log(data.features.length);
